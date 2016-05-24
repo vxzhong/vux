@@ -7,8 +7,8 @@
     <div class="weui_cell_bd weui_cell_primary">
       <input class="weui_input" :style="inputStyle" :type="type" :pattern="pattern" placeholder="{{placeholder}}" v-model="value" :readonly="readonly" @blur="blur" v-el:input/>
     </div>
-    <div class="weui_cell_ft">
-      <icon type="clear" v-show="showClear && value" @click="clear"></icon>
+    <div class="weui_cell_ft" style="display: flex; align-items: center; margin-left: 3px;">
+      <icon type="clear" v-if="showClear && value" @click="clear"></icon>
       <icon type="warn" title="{{!valid ? firstError : ''}}" v-show="!equalWith && ((touched && !valid && firstError) || (forceShowError && !valid && firstError))"></icon>
       <icon type="warn" v-show="hasLengthEqual && dirty && equalWith && !valid"></icon>
       <icon type="success" v-show="equalWith && equalWith===value && valid"></icon>
@@ -51,9 +51,10 @@ export default {
     if (this.equalWith) {
       this.showClear = false
     }
-    if (this.required && !this.value) {
-      this.valid = false
-    }
+    // if (this.required && !this.value) {
+    //   this.valid = false
+		// 	this.errors.required = '必填哦'
+    // }
     if (this.isType === 'email') {
       this.type = 'email'
     }
