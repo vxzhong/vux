@@ -1,9 +1,9 @@
 <template>
-  <div class="weui_cells_title">{{title}}</div>
-  <div class="weui_cells weui_cells_checkbox">
+  <div class="weui_cells_title" v-if="title">{{title}}</div>
+  <div class="weui_cells weui_cells_checkbox" :class="{'vux-checklist-horizontal': horizontal}">
     <label class="weui_cell weui_check_label" for="checkbox_{{uuid}}_{{index}}" v-for="(index,one) in options">
       <div class="weui_cell_hd">
-        <input type="checkbox" class="weui_check" value="{{one | getKey}}" v-model="value" id="checkbox_{{uuid}}_{{index}}">
+        <input :type="type" class="weui_check" value="{{one | getKey}}" v-model="value" id="checkbox_{{uuid}}_{{index}}">
         <i class="weui_icon_checked"></i>
       </div>
       <div class="weui_cell_bd weui_cell_primary">
@@ -34,18 +34,22 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
+      required: false
     },
     required: {
       type: Boolean,
       default: true
+    },
+    horizontal: {
+      type: Boolean,
+      default: false
     },
     options: {
       type: Array,
       required: true
     },
     value: {
-      type: Array,
+      // type: Array,
       required: false,
       twoWay: true
     },
@@ -97,6 +101,13 @@ export default {
     }
   },
   computed: {
+    type: function () {
+      if (this.min === 1 && this.max === 1) {
+        return 'radio'
+      } else {
+        return 'checkbox'
+      }
+    },
     valid: function () {
       return this.value.length >= this.min && this.value.length <= this.max
     },
@@ -126,5 +137,11 @@ export default {
 <style>
 .weui_cells_checkbox > label > * {
   pointer-events: none;
+}
+.vux-checklist-horizontal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0
 }
 </style>
